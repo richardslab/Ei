@@ -33,7 +33,7 @@ amp_genes <- read.table("src/03_make-features/positive-control-t2d-amp-latest.tx
 
 #exclude t2d
 genes.exc.t2d <- all.genes[ -which(all.genes$GWAS==grep("t2d", traits.files)),]
-#exclude AMP genes
+#exclude AMP genes  
 genes.exc.t2d <- genes.exc.t2d[-which(genes.exc.t2d$gene.names %in% amp_genes$Gene.Symbol),]
 
 #consolidated genes, kept AMP genes only for T2D 

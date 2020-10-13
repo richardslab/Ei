@@ -1,6 +1,8 @@
 
 #For a single trait i.trait = 1, 2,...,12
-i.trait <- 2
+for (i.trait in 1:12){
+  print(i.trait)
+  # i.trait <- 1
 
 #load the partitioned data
 
@@ -21,13 +23,6 @@ tmp <- cor(unique.genes);tmp[upper.tri(tmp)] <- 0;diag(tmp) <- 0
 if(sum(apply(tmp,2,function(x) any(abs(x) > 0.99)) )>0)unique.genes <- unique.genes[,-which( apply(tmp,2,function(x) any(abs(x) > 0.99)) == 1 )]
 
 ##########################################################
-
-
-# path.work <- "/scratch/greenwood/lai.jiang/BACKUP/lai.jiang/Brent/Github/Submission/save_process/"
-path.work <- "data/02_features/"
-traits.files <- list.files(path.work)
-
-load( paste0( path.work, traits.files[i.trait]),verbose=TRUE)
 
 ##########################################################
 #Note that all the summarized features start with fn.as.
@@ -113,7 +108,9 @@ roc_obj <- pROC::roc( test.y,  fit )
 rec.auc <- pROC::auc(roc_obj)
 #feature weights
 FI.res<-mlr::getFeatureImportance(xgmodel)
-fts.weight <- as.numeric(FI.res$res)
+# fts.weight <- as.numeric(FI.res$res)
+
+fts.weight <- as.numeric(FI.res$res$importance)
 
 save( xgmodel, rec.auc, fit, id.tr, id.ts, 
      lrn_tune, traintask,
@@ -122,3 +119,4 @@ save( xgmodel, rec.auc, fit, id.tr, id.ts,
      test.locus.genes,
      file=paste0("data/04_models/", sprintf("%d.RData",i.trait)))
 
+}

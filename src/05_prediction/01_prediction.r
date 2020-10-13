@@ -1,3 +1,4 @@
+library(PRROC)
 #we already predicted each of the 12 traits using data from the remaining traits
 #in the xgboost training and test phase.
 #here we just collect and aggregate the predicted probabilities
@@ -9,7 +10,7 @@ all.trait <- NULL
 
 
 #the folder containing the trained xgboost model
-path.load <- "~"
+path.load <- "data/04_models/"
 
 for(i.trait in c(1:12)){
 
@@ -41,13 +42,13 @@ for(i.trait in c(1:12)){
     trait.name <- substr(traits.files, 1, 3)[i.trait]
     if(trait.name=="tg.")trait.name <- "tg_"
     
-    setwd(path.save)
+    # setwd(path.save)
     
-    jpeg(paste0(trait.name,"-PRcurve.jpeg"))
+    jpeg(paste0("data/05_predictions/",trait.name,"-PRcurve.jpeg"))
     plot(pr,main=paste0(trait.name,"-","PR"))
     dev.off()
     
-    jpeg(paste0(trait.name,"-ROCcurve.jpeg"))
+    jpeg(paste0("data/05_predictions/",trait.name,"-ROCcurve.jpeg"))
     plot(roc,main=paste0(trait.name,"-","PR"))
     dev.off()
     
@@ -62,4 +63,7 @@ pred.tab <- data.frame(
   names.genes ,
   traits= gsub( ".RData", "",traits.files[all.trait] ) 
 )
+
+colnames(pred.tab) <- c("Ei", "isPcGene","gene.name", "trait")
+write.csv("data/05_predictions/Ei-12trait-predictions.csv")
 
