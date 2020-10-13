@@ -37,7 +37,7 @@ for(i.trait in c(1:12)){
   roc <- roc.curve(scores.class0 = fg, scores.class1 = bg, curve = T)
   
   #if plot ROC/PR curve
-  if(TRUE){
+  if(FALSE){
     
     trait.name <- substr(traits.files, 1, 3)[i.trait]
     if(trait.name=="tg.")trait.name <- "tg_"
@@ -65,5 +65,5 @@ pred.tab <- data.frame(
 )
 
 colnames(pred.tab) <- c("Ei", "isPcGene","gene.name", "trait")
-write.csv("data/05_predictions/Ei-12trait-predictions.csv")
+write.csv(pred.tab, file="data/05_predictions/Ei-12trait-predictions.csv", row.names = FALSE)
 
